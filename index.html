@@ -6,238 +6,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Морской бой</title>
     <style>
-        /* Стили для главного меню */
-        .menu-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #00fff23b;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            transition: opacity 0.5s;
-        }
-        
-        .menu-container h1 {
-            font-size: 250%;
-            color: #00d6fc;
-            margin-top: 20px;
-        }
-        
-        .menu-container button {
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 25px;
-            margin-top: 20px;
-        }
-        
-        .image1 {
-            display: block;
-            margin: 0 auto; 
-            width: 500px;
-            pointer-events: none;
-        }
-        
-        .image2 { 
-            width: 400px;
-            transform: translateX(-400px);
-            margin-top: -20px;
-            pointer-events: none;
-        }
-        
-        .image3 { 
-            width: 400px;
-            transform: translateX(-500px);
-            transform: translateY(-400px);
-            margin-bottom: 20px;
-            pointer-events: none;
-        }
-        
-        .image4 { 
-            width: 250px;
-            transform: translateX(500px);
-            pointer-events: none;
-        }
-        
-        .image5 { 
-            width: 500px;
-            transform: translateX(300px);
-            margin-top: -400px;
-            pointer-events: none;
-        }
-        
-        /* Стили для игрового экрана (изначально скрыты) */
-        .game-container {
-            display: none;
-            font-family: Arial, sans-serif;
-            background-color: #00fff23b;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-        
-        .header {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .stats {
-            display: flex;
-            gap: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        
-        .game-area {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            align-items: flex-start;
-        }
-        
-        .game-section {
-            background-color: white;
-            border-radius: 5px;
-            padding: 15px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        h1, h2 {
-            color: #0066cc;
-            margin-top: 0;
-        }
-        
-        .fleet-display {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-            justify-content: center;
-        }
-        
-        .ship-preview {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        
-        .ship-cell {
-            width: 25px;
-            height: 25px;
-            background-color: #2ecc71;
-            margin-right: 2px;
-            border: 1px solid #27ae60;
-        }
-        
-        .game-board {
-            display: grid;
-            grid-template-columns: repeat(11, 25px);
-            grid-template-rows: repeat(11, 25px);
-            gap: 1px;
-            margin: 0 auto;
-        }
-        
-        .cell {
-            width: 25px;
-            height: 25px;
-            background-color: #e0e0e0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 12px;
-            font-weight: normal;
-            cursor: pointer;
-            user-select: none;
-        }
-        
-        .header-cell {
-            background-color: #f0f0f0;
-            color: #333;
-            font-weight: bold;
-        }
-        
-        .ship {
-            background-color: #48d1a8;
-        }
-        
-        .hit {
-            background-color: #ff3333;
-            color: white;
-        }
-        
-        .miss {
-            background-color: #ffffff;
-            color: #999;
-        }
-        
-        .sunk {
-            background-color: #ff3333;
-        }
-        
-        .sunk-area {
-            background-color: #3498db;
-        }
-        
-        .ship-preview-cell {
-            background-color: #48d1a8a8;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .game-container button {
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .game-container button:hover {
-            background-color: #0055aa;
-        }
-        
-        .game-container button:disabled {
-            background-color: #757575;
-            cursor: not-allowed;
-        }
-        
-        .current-ship {
-            text-align: center;
-            margin: 10px 0;
-            font-weight: bold;
-        }
-        
-        .player-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .back-to-menu {
-            margin-top: 20px;
-            background-color: #ff6600;
-        }
-    </style>
+    /* Обновленные стили для меню */
+    .menu-container {
+        position: relative; /* Добавляем для корректного z-index */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #00fff23b;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    
+    .menu-container h1 {
+        font-size: 250%;
+        color: #00d6fc;
+        margin-top: 20px;
+        position: relative; /* Важно для z-index */
+        z-index: 10; /* Заголовок поверх изображений */
+    }
+    
+    .menu-container button {
+        background-color: #0066cc;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 25px;
+        margin-top: 20px;
+        position: relative; /* Важно для z-index */
+        z-index: 10; /* Кнопка поверх изображений */
+    }
+    
+    /* Обновленные стили для изображений */
+    .image1 {
+        position: absolute;
+        width: 500px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1; /* Под текстом */
+        opacity: 0.7; /* Делаем немного прозрачным */
+    }
+    
+    .image2, .image3, .image4, .image5 {
+        position: absolute;
+        z-index: 1; /* Под текстом */
+        opacity: 0.7; /* Делаем немного прозрачным */
+    }
+    
+    .image2 { 
+        width: 400px;
+        top: 20%;
+        left: 10%;
+    }
+    
+    .image3 { 
+        width: 400px;
+        bottom: 10%;
+        left: 10%;
+    }
+    
+    .image4 { 
+        width: 250px;
+        top: 20%;
+        right: 10%;
+    }
+    
+    .image5 { 
+        width: 500px;
+        bottom: 10%;
+        right: 10%;
+    }
+</style>
 </head>
 <body>
     <!-- Главное меню -->
