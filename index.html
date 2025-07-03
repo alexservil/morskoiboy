@@ -8,7 +8,7 @@
     <style>
     /* Обновленные стили для меню */
     .menu-container {
-        position: relative; /* Добавляем для корректного z-index */
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -17,68 +17,88 @@
         background-color: #00fff23b;
         font-family: Arial, sans-serif;
         text-align: center;
+        overflow: hidden; /* Скрываем выходящие за границы элементы */
     }
     
     .menu-container h1 {
         font-size: 250%;
         color: #00d6fc;
         margin-top: 20px;
-        position: relative; /* Важно для z-index */
-        z-index: 10; /* Заголовок поверх изображений */
+        position: relative;
+        z-index: 10;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Добавляем тень для лучшей читаемости */
     }
     
     .menu-container button {
         background-color: #0066cc;
         color: white;
         border: none;
-        padding: 8px 15px;
+        padding: 12px 25px;
         border-radius: 5px;
         cursor: pointer;
         font-size: 25px;
-        margin-top: 20px;
-        position: relative; /* Важно для z-index */
-        z-index: 10; /* Кнопка поверх изображений */
+        margin-top: 30px;
+        position: relative;
+        z-index: 10;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s, background-color 0.2s;
     }
     
+    .menu-container button:hover {
+        background-color: #0055aa;
+        transform: translateY(-2px);
+    }
+
     /* Обновленные стили для изображений */
     .image1 {
         position: absolute;
-        width: 500px;
+        width: 450px;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 1; /* Под текстом */
-        opacity: 0.7; /* Делаем немного прозрачным */
+        z-index: 1;
+        opacity: 0.8;
     }
     
-    .image2, .image3, .image4, .image5 {
-        position: absolute;
-        z-index: 1; /* Под текстом */
-        opacity: 0.7; /* Делаем немного прозрачным */
-    }
-    
+    /* Правый верхний корабль (главный) */
     .image2 { 
-        width: 400px;
-        top: 20%;
-        left: 10%;
+        position: absolute;
+        width: 350px;
+        top: 15%;
+        right: 5%;
+        z-index: 5; /* Поверх других изображений */
+        opacity: 0.9;
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4));
     }
     
+    /* Левый нижний корабль (поднят выше) */
     .image3 { 
-        width: 400px;
-        bottom: 10%;
-        left: 10%;
+        position: absolute;
+        width: 320px;
+        bottom: 25%; /* Было 10% */
+        left: 5%;
+        z-index: 2;
+        opacity: 0.7;
     }
     
+    /* Правый средний корабль */
     .image4 { 
-        width: 250px;
-        top: 20%;
-        right: 10%;
+        position: absolute;
+        width: 280px;
+        top: 40%;
+        right: 15%;
+        z-index: 3;
+        opacity: 0.75;
     }
     
+    /* Левый верхний корабль */
     .image5 { 
-        width: 500px;
-        bottom: 10%;
-        right: 10%;
+        position: absolute;
+        width: 380px;
+        top: 20%;
+        left: 10%;
+        z-index: 2;
+        opacity: 0.7;
     }
 </style>
 </head>
