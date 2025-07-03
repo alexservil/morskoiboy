@@ -6,101 +6,262 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Морской бой</title>
     <style>
-    /* Обновленные стили для меню */
-    .menu-container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background-color: #00fff23b;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        overflow: hidden; /* Скрываем выходящие за границы элементы */
-    }
-    
-    .menu-container h1 {
-        font-size: 250%;
-        color: #00d6fc;
-        margin-top: 20px;
-        position: relative;
-        z-index: 10;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Добавляем тень для лучшей читаемости */
-    }
-    
-    .menu-container button {
-        background-color: #0066cc;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 25px;
-        margin-top: 30px;
-        position: relative;
-        z-index: 10;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: transform 0.2s, background-color 0.2s;
-    }
-    
-    .menu-container button:hover {
-        background-color: #0055aa;
-        transform: translateY(-2px);
-    }
+        /* Обновленные стили для меню */
+        .menu-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #00fff23b;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .menu-container h1 {
+            font-size: 250%;
+            color: #00d6fc;
+            margin-top: 20px;
+            position: relative;
+            z-index: 10;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu-container button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 25px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-    /* Обновленные стили для изображений */
-    .image1 {
-        position: absolute;
-        width: 450px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 1;
-        opacity: 0.8;
-    }
-    
-    /* Правый верхний корабль (главный) */
-    .image2 { 
-        position: absolute;
-        width: 300px;
-        top: 20%;
-        right: 8%;
-        z-index: 2; /* Теперь ниже текста, но выше фона */
-        opacity: 0.85;
-    }
-    
-    /* Левый нижний корабль (поднят выше) */
-    .image3 { 
-        position: absolute;
-        width: 320px;
-        bottom: 25%; /* Было 10% */
-        left: 5%;
-        z-index: 2;
-        opacity: 0.7;
-    }
-    
-    /* Правый средний корабль */
-    .image4 { 
-        position: absolute;
-        width: 280px;
-        top: 40%;
-        right: 15%;
-        z-index: 3;
-        opacity: 0.75;
-    }
-    
-    /* Левый верхний корабль */
-    .image5 { 
-        position: absolute;
-        width: 380px;
-        top: 20%;
-        left: 10%;
-        z-index: 2;
-        opacity: 0.7;
-    }
-       
-</style>
+        /* Центральное изображение (фон) */
+        .image1 {
+            position: absolute;
+            width: 500px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            opacity: 0.8;
+        }
+        
+        /* Правый верхний корабль (теперь НЕ поверх других) */
+        .image2 { 
+            position: absolute;
+            width: 300px;
+            top: 20%;
+            right: 8%;
+            z-index: 2; /* Теперь ниже текста, но выше фона */
+            opacity: 0.85;
+        }
+        
+        /* Левый нижний корабль */
+        .image3 { 
+            position: absolute;
+            width: 280px;
+            bottom: 25%;
+            left: 8%;
+            z-index: 2;
+            opacity: 0.8;
+        }
+        
+        /* Правый средний корабль */
+        .image4 { 
+            position: absolute;
+            width: 240px;
+            top: 45%;
+            right: 15%;
+            z-index: 2;
+            opacity: 0.8;
+        }
+        
+        /* Левый верхний корабль */
+        .image5 { 
+            position: absolute;
+            width: 320px;
+            top: 25%;
+            left: 10%;
+            z-index: 2;
+            opacity: 0.8;
+        }
+
+        
+        /* Стили для игрового экрана (изначально скрыты) */
+        .game-container {
+            display: none;
+            font-family: Arial, sans-serif;
+            background-color: #00fff23b;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .game-area {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            align-items: flex-start;
+        }
+        
+        .game-section {
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1, h2 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+        
+        .fleet-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .ship-preview {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .ship-cell {
+            width: 25px;
+            height: 25px;
+            background-color: #2ecc71;
+            margin-right: 2px;
+            border: 1px solid #27ae60;
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(11, 25px);
+            grid-template-rows: repeat(11, 25px);
+            gap: 1px;
+            margin: 0 auto;
+        }
+        
+        .cell {
+            width: 25px;
+            height: 25px;
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: normal;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .header-cell {
+            background-color: #f0f0f0;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .ship {
+            background-color: #48d1a8;
+        }
+        
+        .hit {
+            background-color: #ff3333;
+            color: white;
+        }
+        
+        .miss {
+            background-color: #ffffff;
+            color: #999;
+        }
+        
+        .sunk {
+            background-color: #ff3333;
+        }
+        
+        .sunk-area {
+            background-color: #3498db;
+        }
+        
+        .ship-preview-cell {
+            background-color: #48d1a8a8;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .game-container button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .game-container button:hover {
+            background-color: #0055aa;
+        }
+        
+        .game-container button:disabled {
+            background-color: #757575;
+            cursor: not-allowed;
+        }
+        
+        .current-ship {
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .player-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .back-to-menu {
+            margin-top: 20px;
+            background-color: #ff6600;
+        }
+    </style>
 </head>
 <body>
     <!-- Главное меню -->
@@ -567,121 +728,99 @@
         
         // Ход компьютера
         function computerTurn() {
-    let row, col;
-    
-    // Простая логика ИИ: сначала ищем раненые корабли
-    const hitCells = [];
-    
-    for (let r = 0; r < BOARD_SIZE; r++) {
-        for (let c = 0; c < BOARD_SIZE; c++) {
-            if (gameState.playerBoard[r][c] === 2) {
-                hitCells.push({ row: r, col: c });
-            }
-        }
-    }
-    
-    if (hitCells.length > 0) {
-        // Ищем направление, в котором продолжается корабль
-        const lastHit = hitCells[hitCells.length - 1];
-        const directions = [
-            { dr: -1, dc: 0 }, // вверх
-            { dr: 1, dc: 0 },  // вниз
-            { dr: 0, dc: -1 }, // влево
-            { dr: 0, dc: 1 }   // вправо
-        ];
-        
-        // Проверяем все направления вокруг последнего попадания
-        const possibleShots = [];
-        
-        directions.forEach(dir => {
-            const newRow = lastHit.row + dir.dr;
-            const newCol = lastHit.col + dir.dc;
+            let row, col;
             
-            // Проверяем, что клетка в пределах поля и еще не стреляли
-            if (newRow >= 0 && newRow < BOARD_SIZE && 
-                newCol >= 0 && newCol < BOARD_SIZE && 
-                gameState.playerBoard[newRow][newCol] === 0) {
-                possibleShots.push({ row: newRow, col: newCol });
-            }
-        });
-        
-        if (possibleShots.length > 0) {
-            // Выбираем случайное направление из возможных
-            const shot = possibleShots[Math.floor(Math.random() * possibleShots.length)];
-            row = shot.row;
-            col = shot.col;
-        } else {
-            // Если все направления проверены, ищем другие раненые корабли
-            for (const cell of hitCells) {
-                directions.forEach(dir => {
-                    const newRow = cell.row + dir.dr;
-                    const newCol = cell.col + dir.dc;
-                    
-                    if (newRow >= 0 && newRow < BOARD_SIZE && 
-                        newCol >= 0 && newCol < BOARD_SIZE && 
-                        gameState.playerBoard[newRow][newCol] === 0) {
-                        possibleShots.push({ row: newRow, col: newCol });
+            // Простая логика ИИ: сначала ищем раненые корабли
+            const hitCells = [];
+            
+            for (let r = 0; r < BOARD_SIZE; r++) {
+                for (let c = 0; c < BOARD_SIZE; c++) {
+                    if (gameState.playerBoard[r][c] === 2) {
+                        hitCells.push({ row: r, col: c });
                     }
-                });
+                }
             }
             
-            if (possibleShots.length > 0) {
-                const shot = possibleShots[Math.floor(Math.random() * possibleShots.length)];
-                row = shot.row;
-                col = shot.col;
+            if (hitCells.length > 0) {
+                // Есть раненые корабли - стреляем вокруг них
+                const directions = [
+                    { dr: -1, dc: 0 }, // вверх
+                    { dr: 1, dc: 0 },  // вниз
+                    { dr: 0, dc: -1 }, // влево
+                    { dr: 0, dc: 1 }   // вправо
+                ];
+                
+                const possibleShots = [];
+                
+                hitCells.forEach(cell => {
+                    directions.forEach(dir => {
+                        const newRow = cell.row + dir.dr;
+                        const newCol = cell.col + dir.dc;
+                        
+                        if (newRow >= 0 && newRow < BOARD_SIZE && 
+                            newCol >= 0 && newCol < BOARD_SIZE && 
+                            gameState.playerBoard[newRow][newCol] === 0) {
+                            possibleShots.push({ row: newRow, col: newCol });
+                        }
+                    });
+                });
+                
+                if (possibleShots.length > 0) {
+                    const shot = possibleShots[Math.floor(Math.random() * possibleShots.length)];
+                    row = shot.row;
+                    col = shot.col;
+                } else {
+                    // Случайный выстрел
+                    do {
+                        row = Math.floor(Math.random() * BOARD_SIZE);
+                        col = Math.floor(Math.random() * BOARD_SIZE);
+                    } while (gameState.playerBoard[row][col] > 1);
+                }
             } else {
-                // Если совсем не нашли - случайный выстрел
+                // Случайный выстрел
                 do {
                     row = Math.floor(Math.random() * BOARD_SIZE);
                     col = Math.floor(Math.random() * BOARD_SIZE);
                 } while (gameState.playerBoard[row][col] > 1);
             }
-        }
-    } else {
-        // Случайный выстрел, если нет раненых кораблей
-        do {
-            row = Math.floor(Math.random() * BOARD_SIZE);
-            col = Math.floor(Math.random() * BOARD_SIZE);
-        } while (gameState.playerBoard[row][col] > 1);
-    }
-    
-    // Выстрел компьютера
-    if (gameState.playerBoard[row][col] === 1) {
-        // Попадание
-        gameState.playerBoard[row][col] = 2;
-        gameState.hits.computer++;
-        
-        // Проверка потопления корабля
-        const hitShip = gameState.playerShips.find(ship => 
-            ship.cells.some(cell => cell.row === row && cell.col === col)
-        );
-        
-        if (hitShip) {
-            hitShip.hits++;
             
-            if (hitShip.hits === hitShip.size) {
-                // Корабль потоплен - отмечаем область вокруг
-                markSunkShip(hitShip, true);
-                alert(`Компьютер потопил ваш ${getShipName(hitShip.size)}!`);
+            // Выстрел компьютера
+            if (gameState.playerBoard[row][col] === 1) {
+                // Попадание
+                gameState.playerBoard[row][col] = 2;
+                gameState.hits.computer++;
+                
+                // Проверка потопления корабля
+                const hitShip = gameState.playerShips.find(ship => 
+                    ship.cells.some(cell => cell.row === row && cell.col === col)
+                );
+                
+                if (hitShip) {
+                    hitShip.hits++;
+                    
+                    if (hitShip.hits === hitShip.size) {
+                        // Корабль потоплен - отмечаем область вокруг
+                        markSunkShip(hitShip, true);
+                        alert(`Компьютер потопил ваш ${getShipName(hitShip.size)}!`);
+                    } else {
+                        // Корабль ранен
+                        alert('Компьютер попал в ваш корабль!');
+                    }
+                }
+                
+                // Компьютер продолжает ход после попадания
+                setTimeout(computerTurn, 1000);
             } else {
-                // Корабль ранен
-                alert('Компьютер попал в ваш корабль!');
+                // Промах
+                gameState.playerBoard[row][col] = 3;
+                gameState.misses.computer++;
+                gameState.playerTurn = true;
+                alert('Компьютер промахнулся. Ваш ход.');
             }
+            
+            renderBoards();
+            checkGameEnd();
         }
-        
-        // Компьютер продолжает ход после попадания
-        setTimeout(computerTurn, 1000);
-    } else {
-        // Промах
-        gameState.playerBoard[row][col] = 3;
-        gameState.misses.computer++;
-        gameState.playerTurn = true;
-        alert('Компьютер промахнулся. Ваш ход.');
-    }
-    
-    renderBoards();
-    checkGameEnd();
-}
         
         // Проверка окончания игры
         function checkGameEnd() {
