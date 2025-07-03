@@ -566,137 +566,121 @@
         
         // Ход компьютера
         function computerTurn() {
-            let row, col;
-            
-            // Простая логика ИИ: сначала ищем раненые корабли
-            const hitCells = [];
-            
-            for (let r = 0; r < BOARD_SIZE; r++) {
-                for (let c = 0; c < BOARD_SIZE; c++) {
-                    if (gameState.playerBoard[r][c] === 2) {
-                        hitCells.push({ row: r, col: c });
-                    }
-                }
+    let row, col;
+    
+    // Простая логика ИИ: сначала ищем раненые корабли
+    const hitCells = [];
+    
+    for (let r = 0; r < BOARD_SIZE; r++) {
+        for (let c = 0; c < BOARD_SIZE; c++) {
+            if (gameState.playerBoard[r][c] === 2) {
+                hitCells.push({ row: r, col: c });
             }
+        }
+    }
+    
+    if (hitCells.length > 0) {
+        // Ищем направление, в котором продолжается корабль
+        const lastHit = hitCells[hitCells.length - 1];
+        const directions = [
+            { dr: -1, dc: 0 }, // вверх
+            { dr: 1, dc: 0 },  // вниз
+            { dr: 0, dc: -1 }, // влево
+            { dr: 0, dc: 1 }   // вправо
+        ];
+        
+        // Проверяем все направления вокруг последнего попадания
+        const possibleShots = [];
+        
+        directions.forEach(dir => {
+            const newRow = lastHit.row + dir.dr;
+            const newCol = lastHit.col + dir.dc;
             
-           if (hitCells.length > 0) {
-    // Ищем направление, в котором продолжается корабль
-    const lastHit = hitCells[hitCells.length - 1];
-    const directions = [
-        { dr: -1, dc: 0 }, // вверх
-        { dr: 1, dc: 0 },  // вниз
-        { dr: 0, dc: -1 }, // влево
-        { dr: 0, dc: 1 }    // вправо
-    ];
-    
-    // Проверяем все направления вокруг последнего попадания
-    const possibleShots = [];
-    
-    directions.forEach(dir => {
-        const newRow = lastHit.row + dir.dr;
-        const newCol = lastHit.col + dir.dc;
-        
-        // Проверяем, что клетка в пределах поля и еще не стреляли
-        if (newRow >= 0 && newRow < BOARD_SIZE && 
-            newCol >= 0 && newCol < BOARD_SIZE && 
-            gameState.playerBoard[newRow][newCol] === 0) {
-            possibleShots.push({ row: newRow, col: newCol });
-        }
-    });
-    
-   if (hitCells.length > 0) {
-    // Ищем направление, в котором продолжается корабль
-    const lastHit = hitCells[hitCells.length - 1];
-    const directions = [
-        { dr: -1, dc: 0 }, // вверх
-        { dr: 1, dc: 0 },  // вниз
-        { dr: 0, dc: -1 }, // влево
-        { dr: 0, dc: 1 }    // вправо
-    ];
-    
-    // Проверяем все направления вокруг последнего попадания
-    const possibleShots = [];
-    
-    directions.forEach(dir => {
-        const newRow = lastHit.row + dir.dr;
-        const newCol = lastHit.col + dir.dc;
-        
-        // Проверяем, что клетка в пределах поля и еще не стреляли
-        if (newRow >= 0 && newRow < BOARD_SIZE && 
-            newCol >= 0 && newCol < BOARD_SIZE && 
-            gameState.playerBoard[newRow][newCol] === 0) {
-            possibleShots.push({ row: newRow, col: newCol });
-        }
-    });
-    
-    if (possibleShots.length > 0) {
-        // Выбираем случайное направление из возможных
-        const shot = possibleShots[Math.floor(Math.random() * possibleShots.length)];
-        row = shot.row;
-        col = shot.col;
-    } else {
-        // Если все направления проверены, ищем другие раненые корабли
-        for (const cell of hitCells) {
-            directions.forEach(dir => {
-                const newRow = cell.row + dir.dr;
-                const newCol = cell.col + dir.dc;
-                
-                if (newRow >= 0 && newRow < BOARD_SIZE && 
-                    newCol >= 0 && newCol < BOARD_SIZE && 
-                    gameState.playerBoard[newRow][newCol] === 0) {
-                    possibleShots.push({ row: newRow, col: newCol });
-                }
-            });
-        }
+            // Проверяем, что клетка в пределах поля и еще не стреляли
+            if (newRow >= 0 && newRow < BOARD_SIZE && 
+                newCol >= 0 && newCol < BOARD_SIZE && 
+                gameState.playerBoard[newRow][newCol] === 0) {
+                possibleShots.push({ row: newRow, col: newCol });
+            }
+        });
         
         if (possibleShots.length > 0) {
+            // Выбираем случайное направление из возможных
             const shot = possibleShots[Math.floor(Math.random() * possibleShots.length)];
             row = shot.row;
             col = shot.col;
         } else {
-            // Если совсем не нашли - случайный выстрел
-            do {
-                row = Math.floor(Math.random() * BOARD_SIZE);
-                col = Math.floor(Math.random() * BOARD_SIZE);
-            } while (gameState.playerBoard[row][col] > 1);
-        } 
-            // Выстрел компьютера
-            if (gameState.playerBoard[row][col] === 1) {
-                // Попадание
-                gameState.playerBoard[row][col] = 2;
-                gameState.hits.computer++;
-                
-                // Проверка потопления корабля
-                const hitShip = gameState.playerShips.find(ship => 
-                    ship.cells.some(cell => cell.row === row && cell.col === col)
-                );
-                
-                if (hitShip) {
-                    hitShip.hits++;
+            // Если все направления проверены, ищем другие раненые корабли
+            for (const cell of hitCells) {
+                directions.forEach(dir => {
+                    const newRow = cell.row + dir.dr;
+                    const newCol = cell.col + dir.dc;
                     
-                    if (hitShip.hits === hitShip.size) {
-                        // Корабль потоплен - отмечаем область вокруг
-                        markSunkShip(hitShip, true);
-                        alert(`Компьютер потопил ваш ${getShipName(hitShip.size)}!`);
-                    } else {
-                        // Корабль ранен
-                        alert('Компьютер попал в ваш корабль!');
+                    if (newRow >= 0 && newRow < BOARD_SIZE && 
+                        newCol >= 0 && newCol < BOARD_SIZE && 
+                        gameState.playerBoard[newRow][newCol] === 0) {
+                        possibleShots.push({ row: newRow, col: newCol });
                     }
-                }
-                
-                // Компьютер продолжает ход после попадания
-                setTimeout(computerTurn, 1000);
-            } else {
-                // Промах
-                gameState.playerBoard[row][col] = 3;
-                gameState.misses.computer++;
-                gameState.playerTurn = true;
-                alert('Компьютер промахнулся. Ваш ход.');
+                });
             }
             
-            renderBoards();
-            checkGameEnd();
+            if (possibleShots.length > 0) {
+                const shot = possibleShots[Math.floor(Math.random() * possibleShots.length)];
+                row = shot.row;
+                col = shot.col;
+            } else {
+                // Если совсем не нашли - случайный выстрел
+                do {
+                    row = Math.floor(Math.random() * BOARD_SIZE);
+                    col = Math.floor(Math.random() * BOARD_SIZE);
+                } while (gameState.playerBoard[row][col] > 1);
+            }
         }
+    } else {
+        // Случайный выстрел, если нет раненых кораблей
+        do {
+            row = Math.floor(Math.random() * BOARD_SIZE);
+            col = Math.floor(Math.random() * BOARD_SIZE);
+        } while (gameState.playerBoard[row][col] > 1);
+    }
+    
+    // Выстрел компьютера
+    if (gameState.playerBoard[row][col] === 1) {
+        // Попадание
+        gameState.playerBoard[row][col] = 2;
+        gameState.hits.computer++;
+        
+        // Проверка потопления корабля
+        const hitShip = gameState.playerShips.find(ship => 
+            ship.cells.some(cell => cell.row === row && cell.col === col)
+        );
+        
+        if (hitShip) {
+            hitShip.hits++;
+            
+            if (hitShip.hits === hitShip.size) {
+                // Корабль потоплен - отмечаем область вокруг
+                markSunkShip(hitShip, true);
+                alert(`Компьютер потопил ваш ${getShipName(hitShip.size)}!`);
+            } else {
+                // Корабль ранен
+                alert('Компьютер попал в ваш корабль!');
+            }
+        }
+        
+        // Компьютер продолжает ход после попадания
+        setTimeout(computerTurn, 1000);
+    } else {
+        // Промах
+        gameState.playerBoard[row][col] = 3;
+        gameState.misses.computer++;
+        gameState.playerTurn = true;
+        alert('Компьютер промахнулся. Ваш ход.');
+    }
+    
+    renderBoards();
+    checkGameEnd();
+}
         
         // Проверка окончания игры
         function checkGameEnd() {
