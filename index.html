@@ -717,49 +717,87 @@
                 }
             }
             
-            if (hitCells.length > 0) {
-                // Есть раненые корабли - стреляем вокруг них
-                const directions = [
-                    { dr: -1, dc: 0 }, // вверх
-                    { dr: 1, dc: 0 },  // вниз
-                    { dr: 0, dc: -1 }, // влево
-                    { dr: 0, dc: 1 }   // вправо
-                ];
+           if (hitCells.length > 0) {
+    // Ищем направление, в котором продолжается корабль
+    const lastHit = hitCells[hitCells.length - 1];
+    const directions = [
+        { dr: -1, dc: 0 }, // вверх
+        { dr: 1, dc: 0 },  // вниз
+        { dr: 0, dc: -1 }, // влево
+        { dr: 0, dc: 1 }    // вправо
+    ];
+    
+    // Проверяем все направления вокруг последнего попадания
+    const possibleShots = [];
+    
+    directions.forEach(dir => {
+        const newRow = lastHit.row + dir.dr;
+        const newCol = lastHit.col + dir.dc;
+        
+        // Проверяем, что клетка в пределах поля и еще не стреляли
+        if (newRow >= 0 && newRow < BOARD_SIZE && 
+            newCol >= 0 && newCol < BOARD_SIZE && 
+            gameState.playerBoard[newRow][newCol] === 0) {
+            possibleShots.push({ row: newRow, col: newCol });
+        }
+    });
+    
+   if (hitCells.length > 0) {
+    // Ищем направление, в котором продолжается корабль
+    const lastHit = hitCells[hitCells.length - 1];
+    const directions = [
+        { dr: -1, dc: 0 }, // вверх
+        { dr: 1, dc: 0 },  // вниз
+        { dr: 0, dc: -1 }, // влево
+        { dr: 0, dc: 1 }    // вправо
+    ];
+    
+    // Проверяем все направления вокруг последнего попадания
+    const possibleShots = [];
+    
+    directions.forEach(dir => {
+        const newRow = lastHit.row + dir.dr;
+        const newCol = lastHit.col + dir.dc;
+        
+        // Проверяем, что клетка в пределах поля и еще не стреляли
+        if (newRow >= 0 && newRow < BOARD_SIZE && 
+            newCol >= 0 && newCol < BOARD_SIZE && 
+            gameState.playerBoard[newRow][newCol] === 0) {
+            possibleShots.push({ row: newRow, col: newCol });
+        }
+    });
+    
+    if (possibleShots.length > 0) {
+        // Выбираем случайное направление из возможных
+        const shot = possibleShots[Math.floor(Math.random() * possibleShots.length)];
+        row = shot.row;
+        col = shot.col;
+    } else {
+        // Если все направления проверены, ищем другие раненые корабли
+        for (const cell of hitCells) {
+            directions.forEach(dir => {
+                const newRow = cell.row + dir.dr;
+                const newCol = cell.col + dir.dc;
                 
-                const possibleShots = [];
-                
-                hitCells.forEach(cell => {
-                    directions.forEach(dir => {
-                        const newRow = cell.row + dir.dr;
-                        const newCol = cell.col + dir.dc;
-                        
-                        if (newRow >= 0 && newRow < BOARD_SIZE && 
-                            newCol >= 0 && newCol < BOARD_SIZE && 
-                            gameState.playerBoard[newRow][newCol] === 0) {
-                            possibleShots.push({ row: newRow, col: newCol });
-                        }
-                    });
-                });
-                
-                if (possibleShots.length > 0) {
-                    const shot = possibleShots[Math.floor(Math.random() * possibleShots.length)];
-                    row = shot.row;
-                    col = shot.col;
-                } else {
-                    // Случайный выстрел
-                    do {
-                        row = Math.floor(Math.random() * BOARD_SIZE);
-                        col = Math.floor(Math.random() * BOARD_SIZE);
-                    } while (gameState.playerBoard[row][col] > 1);
+                if (newRow >= 0 && newRow < BOARD_SIZE && 
+                    newCol >= 0 && newCol < BOARD_SIZE && 
+                    gameState.playerBoard[newRow][newCol] === 0) {
+                    possibleShots.push({ row: newRow, col: newCol });
                 }
-            } else {
-                // Случайный выстрел
-                do {
-                    row = Math.floor(Math.random() * BOARD_SIZE);
-                    col = Math.floor(Math.random() * BOARD_SIZE);
-                } while (gameState.playerBoard[row][col] > 1);
-            }
-            
+            });
+        }
+        
+        if (possibleShots.length > 0) {
+            const shot = possibleShots[Math.floor(Math.random() * possibleShots.length)];
+            row = shot.row;
+            col = shot.col;
+        } else {
+            // Если совсем не нашли - случайный выстрел
+            do {
+                row = Math.floor(Math.random() * BOARD_SIZE);
+                col = Math.floor(Math.random() * BOARD_SIZE);
+            } while (gameState.playerBoard[row][col] > 1);
+        } 
             // Выстрел компьютера
             if (gameState.playerBoard[row][col] === 1) {
                 // Попадание
